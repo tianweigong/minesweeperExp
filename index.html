@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+	<script src="static/lib/jquery.min.js"></script>
+	<script src="static/js/main.js" charset="utf-8"></script>
+	<link href="static/lib/bootstrap.min.css" rel="stylesheet"/>
+	<link rel="stylesheet" href="static/css/styles.css">
+	<link rel="stylesheet" href="static/css/interface.css">
+	<title>Experiment</title>
+</head>
+<body><!-- oncontextmenu="return false" -->
+	<div id="pg_cons" class="ctn_nbg"> 
+		<!-- style="display: none;" -->
+		<div style="text-align: center;padding-top: 10px;"><img src="static/img/uni_logo.jpg" style="width:200px"></div>
+		<iframe src="static/page/consent.html" style="border:0px;width: 100%;height: 700px;"></iframe>
+		<div align="center">
+		<br>
+    	<button id="btn_cons" class="btn btn-primary btn-lg" onclick="idpro_show()">Consent and Continue</button>
+		</div> <br>
+	</div>
+
+	<div id="pg_idpro" class="ctn" style="display: none;"><!-- style="display: none;" -->
+		<div class="">
+			<p>Thank you for participating in this study!</p>
+
+			<p><b>Please do not refresh this page during the experiment.</b></p>
+
+			 Please enter your Prolific ID here</p>
+			<p><input type="text" name="idpro" id="idpro" style="width: 400px;" oninput="idpro_check()"></p>
+		</div>
+
+		<br>
+		
+
+		<div align="center">
+    	<button id="btn_idpro" class="btn btn-primary btn-lg" disabled="true" onclick="ins_show()">Continue</button>
+    	</div>
+	</div>
+
+	<div id="pg_ins" class="ctn" style="display: none;"><!-- style="display: none;" -->
+		<div>Press the "Space" key to reveal the instructions one paragraph at a time.</div>
+
+
+		<div><br><h2>Land Inspection and Investment Task</h2>In this experiment, you will act as a land inspector 🕵️ evaluating different plots of land for potential construction.</div>
+
+		<div><br>On each trial, you will see a plot of land consisting of a central area and a surrounding area.</div>
+
+		<div><br>The surrounding area has already been inspected, and you can see which squares contain mines. However, the central area is initially covered, and you will need to inspect it to gather information about whether it contains mines.
+
+
+		<div style="text-align: center;"><img src="static/img/demo.png" style="width:300px;border: solid 1px;"></div>
+
+
+		</div>
+
+		<div><br>There are two possible types of central areas:
+			<ul>
+				<li><b>Uncleared Land.</b> The central area has not undergone mine clearance. Each square may contain a mine, with the same probability as the squares in the surrounding area.</li>
+				<li><b>Cleared Land.</b> The central area has already undergone thorough mine clearance. All mines have been removed, so the entire central area is completely mine-free.</li>
+
+			</ul>
+		These two types are equally likely to occur.
+		</div>
+
+		<div><br><h2>Land Inspection</h2>
+		On each trial, you can inspect up to 10 squares in the central area by clicking on them. Each click reveals whether the square contains a mine, and the inspection ends when you find a mine or complete 10 inspections.
+		</div>
+
+		<div><br><h2>Investment Decision</h2>
+			After inspecting the land, you will decide what percentage (from 0% to 100%) of your available virtual funds you would like to invest in building on the central area.
+		</div>
+
+		<div><br><b>If the central area is cleared land</b>, your investment will generate a good return proportional to the amount invested.</div>
+
+		<div><br><b>If the central area is uncleared land</b>, you will lose all the funds you invested.</div>
+
+		<div><br>Your available funds will be renewed at the beginning of each trial. Therefore, your investment decisions in previous trials will not affect the funds available in later trials.</div>
+
+
+		<div id="comprehension_check">
+			<br>
+			<p> <b>To make sure you understand the instructions, now please indicate whether each of the following statements is true or false. The following explanation is just to make sure you can fully understand the verbs.</b> </p>
+
+			<p>Your job is to inspect the central area by clicking on squares and then decide how much to invest in building on it.</p>			
+			<input type="radio" name="check1" value="yes" id="check1_yes" required="required" onclick="click_comprehension()"><label for="check1_yes">True</label><br>
+			<input type="radio" name="check1" value="no" id="check1_no" required="required" onclick="click_comprehension()"><label for="check1_no">False</label><br><br>
+
+
+			<p>On each trial, you can inspect up to 10 squares. If the central area is cleared land, your investment will generate a good return proportional to the amount invested. If it is uncleared land, you will lose all the funds invested. </p>
+			<input type="radio" name="check2" value="yes" id="check2_yes" required="required" onclick="click_comprehension()"><label for="check2_yes">True</label><br>
+			<input type="radio" name="check2" value="no" id="check2_no" required="required" onclick="click_comprehension()"><label for="check2_no">False</label><br><br>
+
+
+			<p>Each trial is independent. The type of land, the distribution of mines (if any), and the available investment funds are determined independently for each new trial.</p>
+			<input type="radio" name="check3" value="yes" id="check3_yes" required="required" onclick="click_comprehension()"><label for="check3_yes">True</label><br>
+			<input type="radio" name="check3" value="no" id="check3_no" required="required" onclick="click_comprehension()"><label for="check3_no">False</label><br><br>
+
+			<p>The rule indicates that the more confident you are that the entire central area is mine-free, the greater the proportion you should invest.</p>
+			<input type="radio" name="check4" value="yes" id="check4_yes" required="required" onclick="click_comprehension()"><label for="check4_yes">True</label><br>
+			<input type="radio" name="check4" value="no" id="check4_no" required="required" onclick="click_comprehension()"><label for="check4_no">False</label><br><br>
+
+			<br>
+			<div id="pg_nice"  style="display: none;color: #7B2CBF;">
+			Well done, you got all the questions correct! Click "Next" when you are ready to start the task.<br><br>
+			<button type="button" class="btn btn-primary btn-lg"  id="btn_ins1" onclick="ins_next()">Next</button>
+			</div>
+
+			<div id="pg_again" style="display: none;color: #7B2CBF;">
+			Unfortunately, you didn't answer all of the comprehension check questions correctly. Please revise your answer by checking the instruction above.
+			</div>
+
+		</div>
+
+	</div>
+
+
+	<div id="pg_ins2" class="ctn" style="display: none;">
+		<div><br>Well done! Now press the "Space" key to reveal the instructions one paragraph at a time.</div>
+
+		<div><br>In the next part, you will see 20 plots of land where some squares in the central area have already been inspected by others. We have selected only situations in which no mines have been found in any of the inspected squares so far. </div>
+
+		<div><br>Just like in the previous task, please decide how much of your available funds you would like to invest in building on the central area, using the same slider.</div>
+
+		<div>
+		<br>
+		<button type="button" class="btn btn-primary btn-lg"  id="btn_ins2" onclick="ins_next()">Next</button>
+		</div>
+
+	</div>
+
+
+	<div id="pg_ins3" class="ctn" style="display: none;">
+		<div><br>Well done for the second part! Now press the "Space" key to reveal the instructions one paragraph at a time.</div>
+
+		<div><br>In this final part,you will complete 8 trials. On each trial, you will choose which squares in the central area you would like to inspect.</div>
+
+		<div><br>On each trial, you can select 10 squares, just as you did in the first part. However, you will not see whether the selected squares contain mines.</div>
+
+		<div><br>Although you will not be asked to make an investment decision, please make your inspection decisions as if you were still evaluating the land for construction (i.e., evaluating whether the entire central area is mine-free).</div>
+
+
+		<div>
+		<br>
+		<button type="button" class="btn btn-primary btn-lg"  id="btn_ins3" onclick="ins_next()">Next</button>
+		</div>
+
+	</div>
+
+	<div id="pg_game" style="display: none;" > 
+		<!-- -->
+		<div id="sti_container" class="ctn">
+
+			<div style="
+			    width: 570px;
+			    height: 570px;
+			    margin: 0 auto;
+
+			    display: grid;
+			    grid-template-columns: repeat(3, minmax(0, 1fr));
+			    grid-template-rows: repeat(3, minmax(0, 1fr));
+
+			    gap: 1px;
+			    background-color: black;
+
+			    ">
+			<div id="grid1" class="ggrid">
+			</div>
+			<div id="grid2" class="ggrid"></div>
+			<div id="grid3" class="ggrid"></div>
+			<div id="grid4" class="ggrid"></div>
+			<div id="grid5" class="ggrid"></div>
+			<div id="grid6" class="ggrid"></div>
+			<div id="grid7" class="ggrid"></div>
+			<div id="grid8" class="ggrid"></div>
+			<div id="grid9" class="ggrid"></div>
+			</div>
+			<br>
+			<div id="hint">
+				<p id="inspectionInfo">Inspected: 0 / 10 squares</p>
+				<p id="inspectionMessage">Click on a square in the central area to inspect it.</p>
+			</div>
+			
+		</div>
+
+
+	<div id="question_ctn" class="noselect ctn" style="padding:10px;margin-right:auto;margin-left:auto;">
+
+		<div id="my_question" style="text-align: center;">How much would you like to invest?</div>
+		<br>
+
+		<div id="clickArea">
+		    <div id="sliderWrap">
+		        <div id="mytrack">
+		            <div id="mythumb" style="display:none;"></div>
+		        </div>
+
+		        <span class="tick-label left">
+		            0%
+		        </span>
+
+		        <span class="tick-label right">
+		            100%
+		        </span>
+		    </div>
+		</div>
+		<br>
+
+
+		<div style="text-align: center;">
+		<button type="button" class="btn btn-primary btn-lg" id="btn_next" onclick="btn_next_click()" disabled>Next</button>
+		</div>
+
+	</div>
+
+	<div id="next_ctn" class="noselect ctn" style="padding:10px;margin-right:auto;margin-left:auto;display: none;">
+		<div style="text-align: center;">
+		<button type="button" class="btn btn-primary btn-lg" id="btn_next3" onclick="my_trial3()" disabled>Next</button>
+		</div>
+	</div>
+
+
+	<br>
+
+
+
+
+
+	</div>
+
+
+	<div id="pg_ques" class="ctn_nbg" style="display: none;">
+		<h1>Demographic Information</h1>
+
+		<div class="ctn" style="padding: 20px;">
+		<p>Well done! You have finished the main task! </p>
+		<p>Feedback on one or some of the following questions: How did you work out the answers? What did you find particularly easy/hard? Did you have a strategy, if so what was it? Did you spot any bugs or errors? (optional)</p>
+		<textarea id='text_feedback' rows="4" cols="60"></textarea>
+		<p><b>Please answer the following questions about yourself to complete the experiment:</b></p>
+		<p>1. Age <span style="color: red">*</span>: <input type="number" name="age" id="age" oninput="survey_check()"> years</p>
+		<p>2. Gender <span style="color: red">*</span>: 
+			<select name="gender" id="gender" onchange="survey_check()">
+					<option id="gender_unselected" value="--" SELECTED>
+	                <option value="female">Female</option>
+	                <option value="male">Male</option>
+	                <option value="nonbinary">Non binary</option>
+	                <option value="noresponse">I'd prefer not to respond</option>
+	        </select>
+		</p><br>
+		</div>
+		<br>
+		<div align="center">
+            <button id="btn_finish" disabled ="true" class="btn btn-primary btn-lg" onclick="task_bye()">Finish</button>
+        </div><br>
+	</div>
+
+	<div id="pg_bye" class="ctn_nbg" style="display: none;">
+		<h1 id="well_done">Data uploading...</h1>
+		<div id="pg_bye_good" class="ctn" style="padding: 20px;display: none;">
+			<p>Thank you very much!! Data have been saved.
+			<p>Click <a href='https://app.prolific.com/submissions/complete?cc=C14KL2EG'>here</a> to redirect to Prolific."</p>
+		</div> 
+		<div id="pg_upload" class="ctn" style="padding: 20px;display: none;">
+			<p>Sorry, it seems that your network cannot connect to our database successfully. You need to upload the data manually.</p>
+
+			<p><b>Step 1:</b></p>
+			<p>Click <a href="javascript:void(0)" onclick='SaveData(0)'>here</a> to save your data (Inference.json) to your computer (you might need to wait a few seconds after clicking).</p>
+
+			<p><i>(Json is a common and safe file type developed under web languages. It is used to save data just like txt,csv. It can help us to merge your data with other participants later easily.)</i></p>
+
+			<p><b>Step 2:</b></p>
+			<p>Upload the file via <a href="https://qualtrics.ucl.ac.uk/jfe/form/SV_1HZli5a1b2gO9p4" target="_blank">this Qualtrics form</a>.</p>
+
+			<br><br>
+			<button id="btn_upload" class="btn btn-primary btn-lg" disabled ="true" onclick="finish_upload()"><b>I have uploaded the data.</b></button>
+			</div> 
+
+	</div>
+
+</body>
+<script src="static/js/param.js" charset="utf-8"></script>
+<script src="static/js/event.js" charset="utf-8"></script>
+<script type="text/javascript">
+// $("#pg_game").css('display','block');
+// myphase=1;
+// my_trial();
+
+</script>
+
+</html>

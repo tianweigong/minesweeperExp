@@ -1,0 +1,23 @@
+body{
+  font-family: Helvetica, 'Arial', 'Sans-Serif';
+  background-color: #f5ebfc;
+  color: black;
+  padding:0px;
+  margin: 0px;
+  font-size: 18px;
+}
+
+.ctn{
+  background: white;
+  width:900px;
+  margin-right: auto; 
+  margin-left: auto;
+  margin-top:10px;
+  padding: 20px;
+}
+
+.ctn_nbg{
+  width:900px;
+  margin-right: auto; 
+  margin-left: auto;
+}
